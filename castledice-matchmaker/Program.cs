@@ -43,8 +43,15 @@ internal class Program
 
         while (true)
         {
-            matchMakerServer.Update();
-            gameServerClient.Update();
+            try
+            {
+                matchMakerServer.Update();
+                gameServerClient.Update();
+            }
+            catch (Exception e)
+            {
+                Logger.Error(e);
+            }
         }
     }
 }
