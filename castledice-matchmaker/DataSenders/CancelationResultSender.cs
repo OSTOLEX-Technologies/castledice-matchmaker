@@ -1,8 +1,12 @@
-﻿namespace castledice_matchmaker.DataSenders;
+﻿using casltedice_events_logic.ServerToClient;
+using castledice_riptide_dto_adapters.Extensions;
+using Riptide;
+
+namespace castledice_matchmaker.DataSenders;
 
 public class CancelationResultSender : ICancelationResultSender
 {
-    private IMessageSenderById _messageSender;
+    private readonly IMessageSenderById _messageSender;
 
     public CancelationResultSender(IMessageSenderById messageSender)
     {
@@ -11,6 +15,9 @@ public class CancelationResultSender : ICancelationResultSender
 
     public void SendCancelationResult(int playerId, bool isCanceled)
     {
-        throw new NotImplementedException();
+        var dto = new CancelGameResultDTO(isCanceled, playerId);
+        var message = Message.Create(MessageSendMode.Reliable, (ushort)ServerToClientMessageType.CancelGame);
+        message.AddCancelGameResultDTO(dto);
+        _messageSender.SendToAll(message);
     }
 }

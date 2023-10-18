@@ -21,7 +21,7 @@ public class QueuesController : IRequestGameDTOAccepter, ICancelGameDTOAccepter
 
     public void AcceptRequestGameDTO(RequestGameDTO dto)
     {
-        var playerId = _idRetriever.RetrievePlayerId(dto);
+        var playerId = _idRetriever.RetrievePlayerId(dto.VerificationKey);
         var duelQueue = _queues[0]; //TODO: At the moment the only possible game mode is duel, however in the future there will be more and this logic will have to be rewritten.
         duelQueue.EnqueuePlayer(playerId);
         var availableMatches = duelQueue.GetMatches();
@@ -33,6 +33,8 @@ public class QueuesController : IRequestGameDTOAccepter, ICancelGameDTOAccepter
 
     public void AcceptCancelGameDTO(CancelGameDTO dto)
     {
-        throw new NotImplementedException();
+        var playerId = _idRetriever.RetrievePlayerId(dto.VerificationKey);
+        var isPlayerRemoved = _queues.Any(queue => queue.RemovePlayer(playerId));
+        _cancelationResultSender.SendCancelationResult(playerId, isPlayerRemoved);
     }
 }

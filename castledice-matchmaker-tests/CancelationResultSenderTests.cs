@@ -15,6 +15,8 @@ public class CancelationResultSenderTests
         
         cancelationResultSender.SendCancelationResult(playerId, isCanceled);
         var sentMessage = messageSender.SentMessage;
+        sentMessage.GetByte();
+        sentMessage.GetByte();
         var sentDTO = sentMessage.GetCancelGameResultDTO();
         
         Assert.Equal(playerId, sentDTO.PlayerId);
