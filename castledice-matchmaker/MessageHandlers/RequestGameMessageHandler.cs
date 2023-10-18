@@ -2,7 +2,7 @@
 using castledice_riptide_dto_adapters.Extensions;
 using Riptide;
 
-namespace castledice_matchmaker;
+namespace castledice_matchmaker.MessageHandlers;
 
 public static class RequestGameMessageHandler
 {

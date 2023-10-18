@@ -1,6 +1,6 @@
 ﻿using castledice_matchmaker.Matches;
 
-namespace castledice_matchmaker;
+namespace castledice_matchmaker.DataSenders;
 
 public interface IMatchSender
 {
