@@ -72,6 +72,23 @@ public class DuelModeQueueTests
     }
 
     [Fact]
+    //In this test we verify the fact that player was removed from the queue by checking the amount of matches returned by GetMatches method.
+    //If player was not removed, than GetMatches should return 0 matches, because there is only one player in the queue and it is not enough to create a match.
+    public void RemovePlayer_ShouldRemovePlayerFromTheQueue()
+    {
+        var firstPlayerId = 3;
+        var secondPlayerId = 4;
+        var queue = new DuelModeQueue();
+        queue.EnqueuePlayer(firstPlayerId);
+        queue.EnqueuePlayer(secondPlayerId);
+        
+        queue.RemovePlayer(firstPlayerId);
+        var matches = queue.GetMatches();
+        
+        Assert.Empty(matches);
+    }
+
+    [Fact]
     public void RemovePlayer_ShouldReturnFalse_IfPlayerWasNotRemoved()
     {
         var queue = new DuelModeQueue();
