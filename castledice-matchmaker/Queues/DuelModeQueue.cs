@@ -4,7 +4,7 @@ namespace castledice_matchmaker.Queues;
 
 public class DuelModeQueue : IGameModeQueue
 {
-    private readonly Queue<int> _waitingPlayersIds = new();
+    private Queue<int> _waitingPlayersIds = new();
     
     public void EnqueuePlayer(int playerId)
     {
@@ -22,6 +22,13 @@ public class DuelModeQueue : IGameModeQueue
             matches.Add(match);
         }
         return matches;
+    }
+
+    public bool RemovePlayer(int playerId)
+    {
+        if (!_waitingPlayersIds.Contains(playerId)) return false;
+        _waitingPlayersIds = new Queue<int>(_waitingPlayersIds.Where(p => p != playerId));
+        return true;
     }
 
     public GameMode GameMode => GameMode.Duel;

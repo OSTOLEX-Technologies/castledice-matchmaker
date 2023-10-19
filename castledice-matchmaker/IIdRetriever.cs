@@ -4,5 +4,5 @@ namespace castledice_matchmaker;
 
 public interface IIdRetriever
 {
-    int RetrievePlayerId(RequestGameDTO dto);
+    int RetrievePlayerId(string playerToken);
 }
