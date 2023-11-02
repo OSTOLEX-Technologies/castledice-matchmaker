@@ -33,7 +33,7 @@ internal class Program
                 new DuelModeQueue()
             }, 
             new MatchSender(serverWrapper), 
-            new IdRetrieverStub(), //TODO: This must be replaced with an actual id retriever
+            new StringIdRetrieverStub(), //TODO: This must be replaced with an actual id retriever
             new CancelationResultSender(serverWrapper)
             );
         
