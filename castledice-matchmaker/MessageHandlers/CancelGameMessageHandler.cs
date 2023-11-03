@@ -14,7 +14,7 @@ public static class CancelGameMessageHandler
     }
     
     [MessageHandler((ushort)ClientToServerMessageType.CancelGame)]
-    private static void HandleCancelGameMessage(Message message)
+    private static void HandleCancelGameMessage(ushort fromClientId, Message message)
     {
         _dtoAccepter.AcceptCancelGameDTO(message.GetCancelGameDTO());
     }
