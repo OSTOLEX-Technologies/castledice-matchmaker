@@ -39,6 +39,7 @@ internal class Program
             );
         
         RequestGameMessageHandler.SetAccepter(controller);
+        CancelGameMessageHandler.SetAccepter(controller);
 
         while (true)
         {
