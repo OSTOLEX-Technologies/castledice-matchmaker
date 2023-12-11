@@ -7,6 +7,7 @@ using castledice_matchmaker.Queues;
 using castledice_matchmaker.Stubs;
 using Microsoft.Extensions.Configuration;
 using Riptide;
+using Riptide.Transports.Tcp;
 using Riptide.Utils;
 
 internal class Program
@@ -21,7 +22,7 @@ internal class Program
             .AddJsonFile("appsettings.json").Build();
         var matchMakerStartOptions = config.GetRequiredSection("MatchMakerStartOptions").Get<MatchMakerStartOptions>();
 
-        var matchMakerServer = new Server();
+        var matchMakerServer = new Server(new TcpServer());
         Debug.Assert(matchMakerStartOptions != null, nameof(matchMakerStartOptions) + " != null");
         matchMakerServer.Start(matchMakerStartOptions.Port, matchMakerStartOptions.MaxClientCount);
         var serverWrapper = new ServerWrapper(matchMakerServer);
@@ -38,6 +39,7 @@ internal class Program
             );
         
         RequestGameMessageHandler.SetAccepter(controller);
+        CancelGameMessageHandler.SetAccepter(controller);
 
         while (true)
         {

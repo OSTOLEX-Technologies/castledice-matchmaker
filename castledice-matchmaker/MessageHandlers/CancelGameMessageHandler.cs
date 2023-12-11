@@ -1,4 +1,4 @@
-﻿using casltedice_events_logic.ClientToServer;
+﻿using castledice_events_logic.ClientToServer;
 using castledice_riptide_dto_adapters.Extensions;
 using Riptide;
 
@@ -14,7 +14,7 @@ public static class CancelGameMessageHandler
     }
     
     [MessageHandler((ushort)ClientToServerMessageType.CancelGame)]
-    private static void HandleCancelGameMessage(Message message)
+    private static void HandleCancelGameMessage(ushort fromClientId, Message message)
     {
         _dtoAccepter.AcceptCancelGameDTO(message.GetCancelGameDTO());
     }

@@ -1,4 +1,4 @@
-﻿using casltedice_events_logic.ClientToServer;
+﻿using castledice_events_logic.ClientToServer;
 using castledice_riptide_dto_adapters.Extensions;
 using Riptide;
 
@@ -14,7 +14,7 @@ public static class RequestGameMessageHandler
     }
 
     [MessageHandler((ushort)ClientToServerMessageType.RequestGame)]
-    private static void HandleRequestGameMessage(Message message)
+    private static void HandleRequestGameMessage(ushort fromClientId, Message message)
     {
         _dtoAccepter.AcceptRequestGameDTO(message.GetRequestGameDTO());
     }
