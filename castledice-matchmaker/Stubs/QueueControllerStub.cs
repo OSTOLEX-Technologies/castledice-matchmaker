@@ -16,8 +16,9 @@ public class QueueControllerStub : IRequestGameDTOAccepter
         _matchSender = matchSender;
     }
 
-    public void AcceptRequestGameDTO(RequestGameDTO dto)
+    public Task AcceptRequestGameDTOAsync(RequestGameDTO dto)
     {
         _matchSender.SendMatch(new DuelMatch(1, 2));
+        return Task.CompletedTask;
     }
 }

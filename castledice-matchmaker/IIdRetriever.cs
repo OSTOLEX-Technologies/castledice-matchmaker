@@ -4,5 +4,5 @@ namespace castledice_matchmaker;
 
 public interface IIdRetriever
 {
-    int RetrievePlayerId(string playerToken);
+    public Task<int> RetrievePlayerIdAsync(string playerToken);
 }

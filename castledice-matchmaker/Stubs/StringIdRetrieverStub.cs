@@ -5,8 +5,8 @@
 /// </summary>
 public class StringIdRetrieverStub : IIdRetriever
 {
-    public int RetrievePlayerId(string playerToken)
+    public Task<int> RetrievePlayerIdAsync(string playerToken)
     {
-        return int.Parse(playerToken);
+        return Task.FromResult(int.Parse(playerToken));
     }
 }
