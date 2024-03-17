@@ -2,9 +2,9 @@
 using castledice_matchmaker;
 using castledice_matchmaker.Configuration;
 using castledice_matchmaker.DataSenders;
+using castledice_matchmaker.HttpUtilities;
 using castledice_matchmaker.MessageHandlers;
 using castledice_matchmaker.Queues;
-using castledice_matchmaker.Stubs;
 using Microsoft.Extensions.Configuration;
 using Riptide;
 using Riptide.Transports.Tcp;
@@ -21,9 +21,12 @@ internal class Program
         var config = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json").Build();
         var matchMakerStartOptions = config.GetRequiredSection("MatchMakerStartOptions").Get<MatchMakerStartOptions>();
-
-        var matchMakerServer = new Server(new TcpServer());
+        var authBackendConnectionOptions = config.GetRequiredSection("AuthBackendConnectionOptions").Get<AuthBackendConnectionOptions>();
         Debug.Assert(matchMakerStartOptions != null, nameof(matchMakerStartOptions) + " != null");
+        Debug.Assert(authBackendConnectionOptions != null, nameof(authBackendConnectionOptions) + " != null");
+       
+        var httpClientWrapper = new HttpClientWrapper(new HttpClient());
+        var matchMakerServer = new Server(new TcpServer());
         matchMakerServer.Start(matchMakerStartOptions.Port, matchMakerStartOptions.MaxClientCount);
         var serverWrapper = new ServerWrapper(matchMakerServer);
         
@@ -34,7 +37,7 @@ internal class Program
                 new DuelModeQueue()
             }, 
             new MatchSender(serverWrapper), 
-            new StringIdRetrieverStub(), //TODO: This must be replaced with an actual id retriever
+            new HttpIdRetriever(authBackendConnectionOptions.Url, httpClientWrapper), //TODO: This must be replaced with an actual id retriever
             new CancelationResultSender(serverWrapper)
             );
         
