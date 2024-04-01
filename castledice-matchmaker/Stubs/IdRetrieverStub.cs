@@ -7,8 +7,8 @@ namespace castledice_matchmaker.Stubs;
 /// </summary>
 public class IdRetrieverStub : IIdRetriever
 {
-    public int RetrievePlayerId(string dto)
+    public Task<int> RetrievePlayerIdAsync(string playerToken)
     {
-        return 1;
+        return Task.FromResult(1);
     }
 }

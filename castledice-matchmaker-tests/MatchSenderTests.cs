@@ -18,8 +18,7 @@ public class MatchSenderTests
         
         matchSender.SendMatch(matchToSend);
         var sentMessage = messageSender.SentMessage;
-        sentMessage.GetByte();
-        sentMessage.GetByte(); //First two bytes in a message contain information about message send mode and message id. Well, I suppose they do.
+        sentMessage.GetByte(); //First byte in a message contain information about message send mode and message id. Well, I suppose they do.
         var sentDTO = sentMessage.GetMatchFoundDTO();
         
         Assert.True(sentDTO.PlayerIds.Count == 2);

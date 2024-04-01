@@ -11,6 +11,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="castledice-events-logic" Version="0.0.1-dev2" />
+        <PackageReference Include="castledice-riptide-message-extensions" Version="0.0.1-dev1" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0"/>
         <PackageReference Include="Moq" Version="4.20.69" />
         <PackageReference Include="xunit" Version="2.4.2"/>
@@ -26,15 +28,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\castledice-matchmaker\castledice-matchmaker.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Reference Include="castledice-events-logic">
-        <HintPath>..\..\casltedice-events-logic\castledice-events-logic\castledice-events-logic\bin\Debug\netstandard2.1\castledice-events-logic.dll</HintPath>
-      </Reference>
-      <Reference Include="castledice-riptide-message-extensions">
-        <HintPath>..\..\castledice-riptide-dto-adapters\castledice-riptide-message-extensions\bin\Debug\netstandard2.1\castledice-riptide-message-extensions.dll</HintPath>
-      </Reference>
     </ItemGroup>
 
 </Project>

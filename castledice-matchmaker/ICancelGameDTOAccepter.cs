@@ -4,5 +4,5 @@ namespace castledice_matchmaker;
 
 public interface ICancelGameDTOAccepter
 {
-    void AcceptCancelGameDTO(CancelGameDTO dto);
+    Task AcceptCancelGameDTOAsync(CancelGameDTO dto);
 }

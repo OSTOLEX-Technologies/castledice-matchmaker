@@ -9,12 +9,12 @@ namespace castledice_matchmaker_tests;
 public class QueuesControllerTests
 {
     [Fact]
-    public void AcceptCancelGameDTO_ShouldSendCancelationResultWithFalse_IfNoQueueContainsPlayerId()
+    public async void AcceptCancelGameDTO_ShouldSendCancelationResultWithFalse_IfNoQueueContainsPlayerId()
     {
         var playerId = 3;
         var idRetrieverMock = new Mock<IIdRetriever>();
         var cancelationResultSenderMock = new Mock<ICancelationResultSender>();
-        idRetrieverMock.Setup(retriever => retriever.RetrievePlayerId(It.IsAny<string>())).Returns(playerId);
+        idRetrieverMock.Setup(retriever => retriever.RetrievePlayerIdAsync(It.IsAny<string>())).ReturnsAsync(playerId);
         var queuesController = new QueuesControllerBuilder
         {
             IdRetriever = idRetrieverMock.Object,
@@ -22,18 +22,18 @@ public class QueuesControllerTests
         }.Build();
         var cancelGameDTO = new CancelGameDTO("somekey");
         
-        queuesController.AcceptCancelGameDTO(cancelGameDTO);
+        await queuesController.AcceptCancelGameDTOAsync(cancelGameDTO);
         
         cancelationResultSenderMock.Verify(s => s.SendCancelationResult(3, false), Times.Once);
     }
 
     [Fact]
-    public void AcceptCancelGameDTO_ShouldSendCancelationResultWithTrue_IfPlayerWasRemovedFromSomeQueue()
+    public async void AcceptCancelGameDTO_ShouldSendCancelationResultWithTrue_IfPlayerWasRemovedFromSomeQueue()
     {
         var playerId = 4;
         var idRetrieverMock = new Mock<IIdRetriever>();
         var cancelationResultSenderMock = new Mock<ICancelationResultSender>();
-        idRetrieverMock.Setup(retriever => retriever.RetrievePlayerId(It.IsAny<string>())).Returns(playerId);
+        idRetrieverMock.Setup(retriever => retriever.RetrievePlayerIdAsync(It.IsAny<string>())).ReturnsAsync(playerId);
         var queue = new Mock<IGameModeQueue>();
         queue.Setup(q => q.RemovePlayer(playerId)).Returns(true);
         var queuesController = new QueuesControllerBuilder
@@ -43,7 +43,7 @@ public class QueuesControllerTests
             Queues = new List<IGameModeQueue> {queue.Object}
         }.Build();
         
-        queuesController.AcceptCancelGameDTO(new CancelGameDTO("somekey"));
+        await queuesController.AcceptCancelGameDTOAsync(new CancelGameDTO("somekey"));
         
         cancelationResultSenderMock.Verify(s => s.SendCancelationResult(playerId, true), Times.Once);
     }
