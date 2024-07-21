@@ -37,7 +37,7 @@ internal class Program
                 new DuelModeQueue()
             }, 
             new MatchSender(serverWrapper), 
-            new HttpIdRetriever(authBackendConnectionOptions.Url, httpClientWrapper), //TODO: This must be replaced with an actual id retriever
+            new HttpIdRetriever(authBackendConnectionOptions.Url, httpClientWrapper), 
             new CancelationResultSender(serverWrapper)
             );
         
