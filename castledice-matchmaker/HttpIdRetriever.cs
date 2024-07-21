@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Headers;
 using castledice_matchmaker.HttpUtilities;
 using Newtonsoft.Json.Linq;
+using NLog;
 
 namespace castledice_matchmaker;
 
@@ -8,6 +9,7 @@ public class HttpIdRetriever : IIdRetriever
 {
     private readonly string _authServiceUrl;
     private readonly IHttpMessageSender _messageSender;
+    private readonly Logger _logger = LogManager.GetCurrentClassLogger();
 
     public HttpIdRetriever(string authServiceUrl, IHttpMessageSender messageSender)
     {
@@ -17,12 +19,15 @@ public class HttpIdRetriever : IIdRetriever
 
     public async Task<int> RetrievePlayerIdAsync(string playerToken)
     {
+        _logger.Info($"Retrieving player id for token: {playerToken}");
         using var requestMessage = new HttpRequestMessage(HttpMethod.Get, _authServiceUrl + "/me");
         requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", playerToken);
         using var response = await _messageSender.SendAsync(requestMessage);
         response.EnsureSuccessStatusCode();
         var responseBody = await response.Content.ReadAsStringAsync();
-        return GetIdFromJson(responseBody);
+        var id = GetIdFromJson(responseBody);
+        _logger.Info($"Retrieved player id: {id}");
+        return id;
     }
     
     private int GetIdFromJson(string json)
